@@ -11,28 +11,37 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode dummy; // Dummy node to simplify edge cases
-        ListNode* tail = &dummy; // Pointer to construct the new list
+        if(list1 == NULL){
+            return list2;
+        }
+        if(list2 == NULL){
+            return list1;
+        }
+
+        ListNode* ans = new ListNode(-1);
+        ListNode *mptr = ans;
 
         // Merge lists while both lists have nodes
         while (list1 != nullptr && list2 != nullptr) {
             if (list1->val <= list2->val) {
-                tail->next = list1;
-                list1 = list1->next;
+                mptr -> next = list1;
+                mptr = list1;
+                list1 = list1 -> next;
             } else {
-                tail->next = list2;
-                list2 = list2->next;
+                mptr -> next = list2;
+                mptr = list2;
+                list2 = list2 -> next;
             }
-            tail = tail->next;
         }
 
         // Append the remaining nodes of list1 or list2
-        if (list1 != nullptr) {
-            tail->next = list1;
-        } else {
-            tail->next = list2;
+        if(list1 != NULL){
+            mptr -> next = list1;
+        }
+        if(list2 != NULL){
+            mptr -> next = list2;
         }
 
-        return dummy.next; // Return the merged list
+        return ans->next; 
     }
 };

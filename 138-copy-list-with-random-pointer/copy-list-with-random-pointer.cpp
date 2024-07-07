@@ -16,39 +16,26 @@ public:
 
 class Solution {
 public:
+    Node* helper(Node* head, unordered_map<Node*, Node*>& mp){
+        if(head == 0){
+            return 0;
+        }
+
+        // Creating a map of old head values and new Head values
+        Node* newHead = new Node(head -> val);
+        mp[head] = newHead;
+
+        // creating a copy of the LL 
+        newHead -> next = helper(head -> next, mp);
+
+        // Linking the same random in new LL as in the old LL
+        if(head -> random){
+            newHead -> random = mp[head -> random];
+        }
+        return newHead;         
+    }
     Node* copyRandomList(Node* head) {
-        if (head == nullptr) {
-            return nullptr;
-        }
-        
-        // Step 1 : Clone A -> A'
-        Node* it = head; // iterate over old head
-        while (it){
-            Node* clonedNode = new Node(it -> val);
-            clonedNode -> next = it -> next;
-            it -> next = clonedNode;
-            it = it -> next -> next;
-        }
-
-        // Step 2 : Assign random Links of A' with the help of A
-        it = head;
-        while(it){
-            Node* clonedNode = it -> next;
-            clonedNode -> random = it -> random ? it -> random -> next : nullptr;
-            it = it -> next -> next;
-        }
-
-        // Step 3 : Detach A' from A 
-        it = head;
-        Node* clonedHead = it -> next;
-        while(it){
-            Node* clonedNode = it -> next;
-            it -> next = it -> next -> next;
-            if(clonedNode -> next){
-                clonedNode -> next = clonedNode -> next -> next;
-            }
-            it = it -> next;
-        }
-        return clonedHead;
+        unordered_map<Node*, Node*> mp;
+        return helper(head, mp);   
     }
 };

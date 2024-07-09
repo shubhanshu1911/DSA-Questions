@@ -4,7 +4,7 @@ public:
     string removeDuplicates(string s) {
         char ch;
         stack <char> st;
-        string ans = "";
+        // string ans = "";
 
         for(int i=0; i<s.length(); i++){
             ch = s[i];
@@ -20,11 +20,12 @@ public:
             }
         }
         
-        while(!st.empty()){
-            ans.push_back(st.top());
+        string ans = "";
+        while (!st.empty()) {
+            ans = st.top() + ans;
             st.pop();
         }
-        reverse(ans.begin(), ans.end());
+
         return ans;
     }
 };

@@ -1,26 +1,32 @@
 class StockSpanner {
 public:
+    vector<int> oldPrice;
+    // int span = 1;
     StockSpanner() {
-        // No initialization required here as we will use class members
+        
     }
     
     int next(int price) {
+        // push the price value in to the oldPrice vector 
         int span = 1;
-        // Pop elements from the stack as long as the stack is not empty
-        // and the price at the top of the stack is less than or equal to the current price
-        while (!st.empty() && st.top().first <= price) {
-            span += st.top().second;
-            st.pop();
+        oldPrice.push_back(price);
+        int i = oldPrice.size()-1;
+
+        // First element
+        if(i == 0){
+            return span;
         }
-        
-        // Push the current price and its span onto the stack
-        st.push({price, span});
-        
+
+        for(int j=i-1; j>=0; j--){
+            if(oldPrice[i] >= oldPrice[j]){
+                span++;
+            }
+            else{
+                break;
+            }
+        }
         return span;
     }
-
-private:
-    stack<pair<int, int>> st; // Pair of {price, span}
 };
 /**
  * Your StockSpanner object will be instantiated and called as such:

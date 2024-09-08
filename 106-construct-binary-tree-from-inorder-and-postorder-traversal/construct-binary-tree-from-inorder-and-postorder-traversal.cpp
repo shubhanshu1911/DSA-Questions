@@ -11,16 +11,7 @@
  */
 class Solution {
 public:
-    int findPosition(vector<int> v, int n, int element){
-        for(int i=0; i<n; i++){
-            if(v[i] == element){
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    TreeNode* buildTreeUsingPostIn (vector<int>& inOrder, vector<int>& postOrder, int size, int& postIndex, int inOrderStart, int inOrderEnd) {
+    TreeNode* buildTreeUsingPostIn (vector<int>& inOrder, vector<int>& postOrder, int size, int& postIndex, int inOrderStart, int inOrderEnd, unordered_map<int,int>& mapping ) {
         // BASE CASE 
         if(postIndex < 0 || inOrderStart > inOrderEnd){
             return NULL;
@@ -31,16 +22,23 @@ public:
         postIndex--;
         TreeNode* root = new TreeNode(element);
 
-        int pos = findPosition(inOrder, size, element);
+        int pos = mapping[element];        
 
         // Step B : Right ko solve krro 
-        root -> right = buildTreeUsingPostIn(inOrder, postOrder, size, postIndex, pos+1, inOrderEnd);
+        root -> right = buildTreeUsingPostIn(inOrder, postOrder, size, postIndex, pos+1, inOrderEnd, mapping);
         
         // Step C : Left ko solve krro
-        root -> left = buildTreeUsingPostIn(inOrder, postOrder, size, postIndex, inOrderStart, pos-1);
+        root -> left = buildTreeUsingPostIn(inOrder, postOrder, size, postIndex, inOrderStart, pos-1, mapping);
 
         return root;
     }
+
+    void createMap(unordered_map<int,int>& mapping, vector<int>& inorder, int n){
+        for(int i=0; i<n; i++){
+            mapping[inorder[i]] = i;
+        }
+    }
+
 
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
         int size = postorder.size();
@@ -48,7 +46,11 @@ public:
         int inOrderStart = 0;
         int inOrderEnd = size -1;
 
-        TreeNode* root = buildTreeUsingPostIn(inorder, postorder, size, postIndex, inOrderStart, inOrderEnd);
+        unordered_map<int, int> mapping;
+
+        createMap(mapping, inorder, size);
+
+        TreeNode* root = buildTreeUsingPostIn(inorder, postorder, size, postIndex, inOrderStart, inOrderEnd, mapping);
         return root;
         
     }

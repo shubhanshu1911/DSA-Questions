@@ -6,7 +6,7 @@ public:
             s.push(target);
             return;
         }
-        if(s.top().second >= target.second){
+        if(s.top().second <= target.second){
             s.push(target);
             return;
         }
@@ -48,7 +48,7 @@ public:
             s.pop();
             ans.push_back(currElement);
         }
-        reverse(ans.begin(), ans.end());
+        // reverse(ans.begin(), ans.end());
         return ans;
     }
 };

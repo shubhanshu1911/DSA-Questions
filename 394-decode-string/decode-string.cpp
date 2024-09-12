@@ -6,11 +6,13 @@ public:
             if(ch == ']'){
                 string stringToRepeat = "";
                 // jo char h vo digit ke equal nhi h
-                while(!st.empty() && !isdigit(st.top()[0])){
+                while(!st.empty() && st.top() != "["){
                     // string top = ;
-                    stringToRepeat += st.top() == "[" ? "" : st.top(); // cancatinate all the char into the string
+                    stringToRepeat += st.top();// cancatinate all the char into the string
                     st.pop();
                 }
+                // extra pop krna padega
+                st.pop();
 
                 string numericTimes = "";
                 // jo char h vo digit ke equal h

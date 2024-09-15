@@ -26,8 +26,8 @@ public:
         }
     }
     bool isValidBST(TreeNode* root) {
-        long long int lowerBound = -4294967296;
-        long long int upperBound = 4294967296;
+        long long int lowerBound = LONG_MIN;
+        long long int upperBound = LONG_MAX;
         bool ans = solve(root, lowerBound, upperBound);
         return ans;
     }

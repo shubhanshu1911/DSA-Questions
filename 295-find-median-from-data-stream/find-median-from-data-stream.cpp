@@ -52,10 +52,9 @@ public:
     priority_queue<int> maxHeap;  // Max-heap for the lower half
     priority_queue<int, vector<int>, greater<int>> minHeap;  // Min-heap for the upper half
     double median = 0;  // To store the current median
-    // median = 0;  // Initialize median
     
     MedianFinder() {
-    
+        // median = 0;  // Initialize median
     }
     
     void addNum(int num) {

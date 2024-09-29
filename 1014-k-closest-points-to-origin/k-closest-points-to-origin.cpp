@@ -1,20 +1,29 @@
 class Solution {
 public:
     vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
-        priority_queue<pair<double, vector<int>>, vector<pair<double, vector<int>>>, greater<pair<double, vector<int>>>> minHeap;
+        // Max heap to store the closest k points based on distance
+        priority_queue<pair<double, vector<int>>> maxHeap;
         vector<vector<int>> ans;
 
-        for(int i=0; i<points.size(); i++){
-            vector<int> temp = points[i];
-            double sd = sqrt((temp[0] * temp[0]) + (temp[1] * temp[1]));  // Correct distance calculation
-            minHeap.push(make_pair(sd, temp));  // Pair distance with point and push
+        for(int i = 0; i < points.size(); i++){
+            // Calculate Euclidean distance
+            double sd = sqrt((points[i][0] * points[i][0]) + (points[i][1] * points[i][1]));
+
+            // Push the distance and point into the max heap
+            maxHeap.push({sd, points[i]});
+
+            // If the size of the heap exceeds k, pop the farthest point
+            if (maxHeap.size() > k) {
+                maxHeap.pop();
+            }
         }
 
-        while(k-- && !minHeap.empty()){
-            vector<int> topElement = minHeap.top().second;
-            minHeap.pop();
-            ans.push_back(topElement);
-        } 
+        // Extract k closest points from the heap
+        while (!maxHeap.empty()) {
+            ans.push_back(maxHeap.top().second);
+            maxHeap.pop();
+        }
+
         return ans;
     }
 };

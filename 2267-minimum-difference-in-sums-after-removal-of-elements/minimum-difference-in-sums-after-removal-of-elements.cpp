@@ -2,40 +2,40 @@ class Solution {
 public:
     long long minimumDifference(vector<int>& nums) {
         int n = nums.size() / 3;
-        priority_queue<int> maxHeap; // For storing the largest n elements for mini
-        priority_queue<int, vector<int>, greater<int>> minHeap; // For storing the smallest n elements for max
         vector<long long> mini(nums.size(), 0);
         vector<long long> maxi(nums.size(), 0);
         long long ans = LLONG_MAX;
 
         // mini possible sum of n elements from the first part
         long long sum = 0;
-        for(int i = 0; i < 2 * n; i++) {
+        priority_queue<long long> maxHeap; 
+        for(int i = 0; i < nums.size(); i++) {
             maxHeap.push(nums[i]);
             sum += nums[i];
 
             if (maxHeap.size() > n) {
                 sum -= maxHeap.top();
-                maxHeap.pop();
+                maxHeap.pop(); // coz meko mini sum chahiye -> jo ki bottom two denge
             }
 
-            if (i >= n - 1) {
+            if (maxHeap.size() == n) {
                 mini[i] = sum; // Store sum of smallest n elements
             }
         }
 
         // max possible sum of n elements from the last part
         sum = 0;
-        for (int i = nums.size() - 1; i >= n; i--) {
+        priority_queue<long long, vector<long long>, greater<long long>> minHeap;
+        for (int i = nums.size() - 1; i >= 0; i--) {
             minHeap.push(nums[i]);
             sum += nums[i];
 
             if (minHeap.size() > n) {
-                sum -= minHeap.top();
-                minHeap.pop();
+                sum -= minHeap.top(); 
+                minHeap.pop(); // coz meko max sum chahiye -> jo ki bottom two denge
             }
 
-            if (i <= 2 * n) {
+            if (maxHeap.size() == n) {
                 maxi[i] = sum; // Store sum of largest n elements
             }
         }

@@ -39,11 +39,30 @@ public:
         if(n == 1) 
             return dp[1];
 
-        // Step 3 : 
+        // Step 3 : Iterative krna hota h
         for(int i=2; i<=n; i++){
             dp[i] = dp[i-1] + dp[i-2];
         }
         return dp[n];
+    }
+
+    int spaceOptSolve(int n){
+        int prev2 = 0;
+        if(n == 0) 
+            return prev2;
+        int prev1 = 1;
+        if(n == 1) 
+            return prev1;
+
+        int curr;
+
+        // Step 3 : Iterative krna hota h
+        for(int i=2; i<=n; i++){
+            curr = prev1 + prev2;
+            prev2  = prev1;
+            prev1 = curr;
+        }
+        return curr;
     }
 
     int fib(int n) {

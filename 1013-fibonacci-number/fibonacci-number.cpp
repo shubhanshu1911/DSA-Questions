@@ -71,7 +71,7 @@ public:
         // int ans = topDownSolve(n, dp);
         // return ans;
 
-        int ans = bottomUpSolve(n);
+        int ans = spaceOptSolve(n);
         return ans;
         
     }
